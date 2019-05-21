@@ -54,6 +54,7 @@ from jira.resilientsession import ResilientSession
 # JIRA specific resources
 from jira.resources import Attachment
 from jira.resources import Board
+from jira.resources import ChangeLog
 from jira.resources import Comment
 from jira.resources import Component
 from jira.resources import Customer
@@ -1526,6 +1527,20 @@ class JIRA(object):
             url, data=json.dumps(payload))
         raise_on_error(r)
         return True
+
+    @translate_resource_args
+    def changelog(self, issue):
+        """Get a list of changelog Resources.
+
+        :param issue: the issue to get change logs from
+        :type issue: Issue
+        :rtype: List[ChangeLog]
+        """
+        r_json = self._get_json('issue/' + str(issue) + '/changelog')
+
+        changelog = [ChangeLog(self._options, self._session, raw_change_log_json)
+                       for raw_change_log_json in r_json['values']]
+        return changelog
 
     @translate_resource_args
     def comments(self, issue):

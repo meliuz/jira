@@ -29,6 +29,7 @@ from jira.utils import threaded_requests
 __all__ = (
     'Resource',
     'Issue',
+    'ChangeLog',
     'Comment',
     'Project',
     'Attachment',
@@ -591,6 +592,15 @@ class Issue(Resource):
     def __eq__(self, other):
         """Comparison method."""
         return other is not None and self.id == other.id
+
+
+class ChangeLog(Resource):
+    """An issue ChangeLog."""
+
+    def __init__(self, options, session, raw=None):
+        Resource.__init__(self, 'issue/{0}/changelog/{1}', options, session)
+        if raw:
+            self._parse_raw(raw)
 
 
 class Comment(Resource):
