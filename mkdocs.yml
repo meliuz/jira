@@ -1,0 +1,6 @@
+---
+site_name: jira
+nav:
+  - Home: README.md
+plugins:
+  - techdocs-core
